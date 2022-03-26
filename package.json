@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "description": "Like Worldle... only more",
     "main": "dist/main.js",
+    "type": "module",
     "scripts": {
         "start": "node dist/main.js",
         "clean": "rm -rf dist && mkdir dist",
