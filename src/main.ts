@@ -1,4 +1,4 @@
-import { CliApp } from './CliApp';
+import { CliApp } from './app/CliApp';
 
 const main = async (): Promise<void> => {
     const app = new CliApp();

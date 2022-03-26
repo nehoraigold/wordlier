@@ -1,6 +1,6 @@
 import chalk from 'chalk';
-import { HEADER_CORNER_CHAR, HEADER_HORIZONTAL_CHAR, HEADER_SPACING, HEADER_VERTICAL_CHAR } from './utils/constants';
-import { LetterSpaceResult, ProcessedResult } from './word_processor/ProcessedResult';
+import { HEADER_CORNER_CHAR, HEADER_HORIZONTAL_CHAR, HEADER_SPACING, HEADER_VERTICAL_CHAR } from '../utils/constants';
+import { LetterSpaceResult, ProcessedResult } from '../word_processor/ProcessedResult';
 
 export class CliRenderer {
     static Error(errorMessage: string): string {

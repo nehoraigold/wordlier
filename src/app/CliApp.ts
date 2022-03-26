@@ -1,8 +1,8 @@
-import { DEFAULT_TURN_COUNT, DEFAULT_WORD_LENGTH } from './utils/constants';
-import { RandomWordApiAnswerRetriever } from './answer_retriever/RandomWordApiAnswerRetriever';
-import { CliGuessRetriever } from './guess_retriever/CliGuessRetriever';
+import { DEFAULT_TURN_COUNT, DEFAULT_WORD_LENGTH } from '../utils/constants';
+import { RandomWordApiAnswerRetriever } from '../answer_retriever/RandomWordApiAnswerRetriever';
+import { CliGuessRetriever } from '../guess_retriever/CliGuessRetriever';
 import { CliRenderer } from './CliRenderer';
-import { Game } from './game/Game';
+import { Game } from '../game/Game';
 import { IApp } from './IApp';
 
 export class CliApp implements IApp {

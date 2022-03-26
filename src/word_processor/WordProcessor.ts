@@ -1,8 +1,8 @@
-import { ProcessedResult, LetterSpace, LetterSpaceResult } from './ProcessedResult';
+import { ProcessedResult, LetterSpaceResult } from './ProcessedResult';
 
 export class WordProcessor {
     public Process(guess: string, answer: string): ProcessedResult {
-        let results: Array<LetterSpace> = [];
+        let results: ProcessedResult = [];
         const answerLetters = this.getCharCountMap(answer);
 
         results = this.processCorrectLocation(guess, answer, answerLetters, results);
@@ -16,8 +16,8 @@ export class WordProcessor {
         guess: string,
         answer: string,
         answerLetters: Map<string, number>,
-        results: Array<LetterSpace>,
-    ): Array<LetterSpace> {
+        results: ProcessedResult,
+    ): ProcessedResult {
         guess.split('').forEach((letter, index) => {
             if (answer[index] === letter) {
                 const count = answerLetters.get(letter);
@@ -31,8 +31,8 @@ export class WordProcessor {
     private processIncorrectLocation(
         guess: string,
         answerLetters: Map<string, number>,
-        results: Array<LetterSpace>,
-    ): Array<LetterSpace> {
+        results: ProcessedResult,
+    ): ProcessedResult {
         guess.split('').forEach((letter, index) => {
             const numOfCharsLeft = answerLetters.get(letter);
             if (numOfCharsLeft > 0) {
@@ -43,7 +43,7 @@ export class WordProcessor {
         return results;
     }
 
-    private processNotInWord(guess: string, results: Array<LetterSpace>): Array<LetterSpace> {
+    private processNotInWord(guess: string, results: ProcessedResult): ProcessedResult {
         guess.split('').forEach((letter, index) => {
             if (!results[index]) {
                 results[index] = { letter, result: LetterSpaceResult.NOT_IN_WORD };
