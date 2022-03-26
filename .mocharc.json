@@ -1,0 +1,5 @@
+{
+  "timeout": 10000,
+  "recursive": true,
+  "spec": "./test/**/*.test.ts"
+}
