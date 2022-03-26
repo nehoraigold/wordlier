@@ -1,5 +1,5 @@
 import { IGuessRetriever } from '../guess_retriever/IGuessRetriever';
-import { LetterSpace, LetterSpaceResult } from '../word_processor/ProcessedResult';
+import { LetterSpaceResult, ProcessedResult } from '../word_processor/ProcessedResult';
 import { WordProcessor } from '../word_processor/WordProcessor';
 import { GameConfiguration } from './GameConfiguration';
 
@@ -8,7 +8,7 @@ export class Game {
     private readonly guessRetriever: IGuessRetriever;
     private answer: string;
     private turnCount: number;
-    private history: Array<Array<LetterSpace>>;
+    private history: Array<ProcessedResult>;
 
     constructor(guessRetriever: IGuessRetriever) {
         this.guessRetriever = guessRetriever;
@@ -22,9 +22,12 @@ export class Game {
         return true;
     }
 
-    public async PlayTurn(): Promise<Array<LetterSpace>> {
+    public async PlayTurn(): Promise<ProcessedResult> {
+        if (this.IsOver) {
+            throw `Game is over, cannot play turn!`;
+        }
         const guess = await this.guessRetriever.RetrieveGuess();
-        const { results } = this.processor.Process(guess, this.answer);
+        const results = this.processor.Process(guess, this.answer);
         this.history.push(results);
         return results;
     }

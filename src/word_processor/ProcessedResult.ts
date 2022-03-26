@@ -1,6 +1,4 @@
-export type ProcessedResult = {
-    results: Array<LetterSpace>;
-};
+export type ProcessedResult = Array<LetterSpace>;
 
 export type LetterSpace = {
     letter: string;

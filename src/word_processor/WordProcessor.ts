@@ -9,7 +9,7 @@ export class WordProcessor {
         results = this.processIncorrectLocation(guess, answerLetters, results);
         results = this.processNotInWord(guess, results);
 
-        return { results };
+        return results;
     }
 
     private processCorrectLocation(

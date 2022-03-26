@@ -3,22 +3,26 @@ import * as readline from 'readline';
 import { IGuessRetriever } from './IGuessRetriever';
 
 export class CliGuessRetriever implements IGuessRetriever {
-    constructor(private readonly wordLength: number) {}
+    private readonly validatorRegex: RegExp;
+
+    constructor(wordLength: number) {
+        this.validatorRegex = new RegExp(`^[a-z]{${wordLength}}$`);
+    }
 
     public async RetrieveGuess(): Promise<string> {
         let guess = '';
-        while (guess.length !== this.wordLength) {
+        while (!this.validatorRegex.test(guess)) {
             guess = await this.getGuess();
         }
         return guess.toLowerCase();
     }
 
     private getGuess(): Promise<string> {
-        const rl = readline.createInterface({ input, output });
         return new Promise<string>((resolve) => {
+            const rl = readline.createInterface({ input, output });
             rl.question('Enter guess: ', (ans) => {
-                resolve(ans);
                 rl.close();
+                resolve(ans);
             });
         });
     }
