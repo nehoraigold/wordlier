@@ -6,7 +6,7 @@ export class CliGuessRetriever implements IGuessRetriever {
     private readonly validatorRegex: RegExp;
 
     constructor(wordLength: number) {
-        this.validatorRegex = new RegExp(`^[a-z]{${wordLength}}$`);
+        this.validatorRegex = new RegExp(`^[A-Za-z]{${wordLength}}$`);
     }
 
     public async RetrieveGuess(): Promise<string> {
