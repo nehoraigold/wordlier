@@ -6,11 +6,7 @@
         "sourceType": "module"
     },
     "plugins": [
-        "@typescript-eslint",
-        "no-loops"
+        "@typescript-eslint"
     ],
-    "root": true,
-    "rules": {
-        "no-console": 1
-    }
+    "root": true
 }

@@ -10,7 +10,11 @@ export default {
         preferConst: true,
     },
     plugins: [
-        nodeResolve({ preferBuiltins: true }),
+        nodeResolve({
+            preferBuiltins: true,
+            browser: false,
+            exportConditions: ['node'],
+        }),
         commonjs(),
         typescript(),
         cleanup({ comments: 'none', extensions: ['ts', 'js'] }),
