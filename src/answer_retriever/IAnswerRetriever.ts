@@ -1,3 +1,3 @@
 export interface IAnswerRetriever {
-    RetrieveAnswer(numberOfCharacters: number): Promise<string>;
+    RetrieveAnswer(wordLength: number): Promise<string>;
 }

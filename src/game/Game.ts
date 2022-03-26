@@ -45,6 +45,6 @@ export class Game {
     }
 
     public get IsOver(): boolean {
-        return this.turnCount === this.TurnNumber || this.DidWin;
+        return this.turnCount < this.TurnNumber || this.DidWin;
     }
 }

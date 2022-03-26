@@ -1,5 +1,5 @@
 import { DEFAULT_TURN_COUNT, DEFAULT_WORD_LENGTH } from './utils/constants';
-import { HardCodedAnswerRetriever } from './answer_retriever/HardCodedAnswerRetriever';
+import { RandomWordApiAnswerRetriever } from './answer_retriever/RandomWordApiAnswerRetriever';
 import { CliGuessRetriever } from './guess_retriever/CliGuessRetriever';
 import { CliRenderer } from './CliRenderer';
 import { Game } from './game/Game';
@@ -11,10 +11,10 @@ export class CliApp implements IApp {
     }
 
     public async Run(): Promise<void> {
-        const game = new Game(new CliGuessRetriever(DEFAULT_WORD_LENGTH));
-
-        const answerRetriever = new HardCodedAnswerRetriever();
+        const answerRetriever = new RandomWordApiAnswerRetriever();
         const answer = await answerRetriever.RetrieveAnswer(DEFAULT_WORD_LENGTH);
+
+        const game = new Game(new CliGuessRetriever(DEFAULT_WORD_LENGTH));
         if (!(await game.Start({ turnCount: DEFAULT_TURN_COUNT, answer }))) {
             CliRenderer.Error('Unable to start game!');
             return;
@@ -26,7 +26,8 @@ export class CliApp implements IApp {
             CliRenderer.Result(result);
             CliRenderer.NewLine();
         }
-        CliRenderer.Message(game.DidWin ? 'You win!' : 'You lost.');
+        const message = game.DidWin ? 'You win!' : `You lost. The word was ${answer.toUpperCase()}.`;
+        CliRenderer.Message(message);
     }
 
     public async Close(): Promise<void> {
