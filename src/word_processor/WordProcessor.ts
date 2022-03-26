@@ -34,6 +34,10 @@ export class WordProcessor {
         results: ProcessedResult,
     ): ProcessedResult {
         guess.split('').forEach((letter, index) => {
+            if (results[index]) {
+                return;
+            }
+
             const numOfCharsLeft = answerLetters.get(letter);
             if (numOfCharsLeft > 0) {
                 answerLetters.set(letter, numOfCharsLeft - 1);
