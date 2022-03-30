@@ -33,10 +33,10 @@ export class CliRenderer {
             let char = ' ' + letterSpace.letter.toUpperCase() + ' ';
             switch (letterSpace.result) {
                 case LetterSpaceResult.CORRECT_LOCATION:
-                    char = chalk.bgGreenBright.black(char);
+                    char = chalk.bgGreen.black(char);
                     break;
                 case LetterSpaceResult.INCORRECT_LOCATION:
-                    char = chalk.bgYellowBright.black(char);
+                    char = chalk.bgYellow.black(char);
                     break;
                 case LetterSpaceResult.NOT_IN_WORD:
                     char = chalk.bgGray.black(char);

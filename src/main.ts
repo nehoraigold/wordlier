@@ -1,7 +1,7 @@
 import { CliApp } from './app/CliApp';
 
 const main = async (): Promise<void> => {
-    const app = new CliApp();
+    const app = new CliApp(JSON.parse(`{"answerRetrieverType":"random_word_api","guessValidatorType":"none"}`));
 
     if (!(await app.Initialize())) {
         console.error('Unable to initialize app!');

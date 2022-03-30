@@ -1,4 +1,5 @@
 import { IGuessRetriever } from '../guess_retriever/IGuessRetriever';
+import { IGuessValidator } from '../guess_validator/IGuessValidator';
 import { LetterSpaceResult, ProcessedResult } from '../word_processor/ProcessedResult';
 import { WordProcessor } from '../word_processor/WordProcessor';
 import { GameConfiguration } from './GameConfiguration';
@@ -6,12 +7,14 @@ import { GameConfiguration } from './GameConfiguration';
 export class Game {
     private readonly processor: WordProcessor;
     private readonly guessRetriever: IGuessRetriever;
+    private readonly guessValidator: IGuessValidator;
     private answer: string;
     private turnCount: number;
     private history: Array<ProcessedResult>;
 
-    constructor(guessRetriever: IGuessRetriever) {
+    constructor(guessRetriever: IGuessRetriever, guessValidator: IGuessValidator) {
         this.guessRetriever = guessRetriever;
+        this.guessValidator = guessValidator;
         this.processor = new WordProcessor();
     }
 
@@ -26,10 +29,22 @@ export class Game {
         if (this.IsOver) {
             throw `Game is over, cannot play turn!`;
         }
-        const guess = await this.guessRetriever.RetrieveGuess();
+
+        let guess: string;
+        do {
+            guess = await this.guessRetriever.RetrieveGuess();
+        } while (!(await this.isValidGuess(guess)));
+
         const results = this.processor.Process(guess, this.answer);
         this.history.push(results);
         return results;
+    }
+
+    private async isValidGuess(guess: string): Promise<boolean> {
+        if (this.guessValidator) {
+            return await this.guessValidator.Validate(guess);
+        }
+        return true;
     }
 
     public get DidWin(): boolean {
