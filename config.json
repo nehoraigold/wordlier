@@ -1,0 +1,5 @@
+{
+  "answerRetrieverType": "random_word_api",
+  "guessValidatorType": "",
+  "wordnikApiKey": ""
+}

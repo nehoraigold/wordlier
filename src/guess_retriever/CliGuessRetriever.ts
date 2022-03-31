@@ -1,20 +1,16 @@
 import { stdin as input, stdout as output } from 'process';
 import * as readline from 'readline';
-import { CliRenderer } from '../app/CliRenderer';
+import { CliRenderer } from '../utils/CliRenderer';
+import { IGuessValidator } from '../guess_validator/IGuessValidator';
+import { ValidGuessRetrieverBase } from './ValidGuessRetrieverBase';
 import { IGuessRetriever } from './IGuessRetriever';
 
-export class CliGuessRetriever implements IGuessRetriever {
-    private readonly validatorRegex: RegExp;
-
-    constructor(wordLength: number) {
-        this.validatorRegex = new RegExp(`^[A-Za-z]{${wordLength}}$`);
+export class CliGuessRetriever extends ValidGuessRetrieverBase {
+    constructor(wordLength: number, guessValidator?: IGuessValidator) {
+        super(wordLength, guessValidator);
     }
 
-    public async RetrieveGuess(): Promise<string> {
-        let guess = '';
-        while (!this.validatorRegex.test(guess)) {
-            guess = await CliRenderer.Prompt();
-        }
-        return guess.toLowerCase();
+    protected async retrieve(): Promise<string> {
+        return await CliRenderer.Prompt();
     }
 }

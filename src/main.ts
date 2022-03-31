@@ -1,4 +1,4 @@
-import { CliApp } from './app/CliApp';
+import { CliApp } from './app/cli/CliApp';
 
 const main = async (): Promise<void> => {
     const app = new CliApp(JSON.parse(`{"answerRetrieverType":"random_word_api","guessValidatorType":"none"}`));
