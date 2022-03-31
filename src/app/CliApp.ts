@@ -38,13 +38,16 @@ export class CliApp implements IApp {
 
     private createInitializationParams(): InitializationParams {
         const initializationParams = {} as InitializationParams;
+
+        const { answerRetrieverType, guessValidatorType } = this.config;
         if (
-            this.config.answerRetrieverType === AnswerRetrieverType.WORDNIK_API ||
-            this.config.guessValidatorType === GuessValidatorType.WORDNIK_API
+            answerRetrieverType === AnswerRetrieverType.WORDNIK_API ||
+            guessValidatorType === GuessValidatorType.WORDNIK_API
         ) {
             const { wordnikApiKey } = this.config;
             initializationParams.wordnikClient = new WordnikApiClient(wordnikApiKey);
         }
+
         return initializationParams;
     }
 
