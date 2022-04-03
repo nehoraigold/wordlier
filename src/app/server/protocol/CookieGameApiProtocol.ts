@@ -6,8 +6,8 @@ import { IGameApiProtocol } from './IGameApiProtocol';
 const WORDLIER_COOKIE_NAME = '_wordlier';
 
 export class CookieGameApiProtocol implements IGameApiProtocol {
-    public FromRequest(request: Request): Game {
-        const gameStateCookie = request.cookies[WORDLIER_COOKIE_NAME];
+    public FromRequest(req: Request): Game {
+        const gameStateCookie = req.cookies[WORDLIER_COOKIE_NAME];
         if (!gameStateCookie) {
             global.logger.Debug(`no ${WORDLIER_COOKIE_NAME} cookie on request`);
             return null;
@@ -24,14 +24,14 @@ export class CookieGameApiProtocol implements IGameApiProtocol {
         }
     }
 
-    public ToResponse(game: Game, response: Response): Response {
+    public ToResponse(game: Game, res: Response): Response {
         const gameState: GameState = {
             answer: game.Answer,
             history: game.History,
         };
 
         const cookie = Buffer.from(JSON.stringify(gameState)).toString('base64');
-        response.cookie(WORDLIER_COOKIE_NAME, cookie);
-        return response;
+        res.cookie(WORDLIER_COOKIE_NAME, cookie);
+        return res;
     }
 }

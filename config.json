@@ -3,5 +3,6 @@
   "answerRetrieverType": "random_word_api",
   "guessValidatorType": "",
   "apiProtocolType": "",
-  "wordnikApiKey": ""
+  "wordnikApiKey": "",
+  "wordLength": 5
 }

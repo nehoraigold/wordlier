@@ -5,12 +5,12 @@ import { GameState } from './GameState';
 import { IGameApiProtocol } from './IGameApiProtocol';
 
 export class JsonBodyGameApiProtocol implements IGameApiProtocol {
-    public FromRequest(request: Request): Game {
-        if (!request.body) {
+    public FromRequest(req: Request): Game {
+        if (!req?.body) {
             return null;
         }
         try {
-            const { answer, turnCount, history } = request.body as GameState;
+            const { answer, turnCount, history } = req.body as GameState;
             return new Game(answer, turnCount, history);
         } catch (err) {
             global.logger.Error(err);
@@ -18,11 +18,11 @@ export class JsonBodyGameApiProtocol implements IGameApiProtocol {
         }
     }
 
-    public ToResponse(game: Game, response: Response): Response {
-        response.locals[SERVICE_JSON_FIELD] = {
+    public ToResponse(game: Game, res: Response): Response {
+        res.locals[SERVICE_JSON_FIELD] = {
             answer: game.Answer,
             history: game.History,
         } as GameState;
-        return response;
+        return res;
     }
 }

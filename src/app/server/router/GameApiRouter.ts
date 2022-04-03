@@ -10,12 +10,14 @@ import { JsonBodyGameApiProtocol } from '../protocol/JsonBodyGameApiProtocol';
 import { RouterBase } from './RouterBase';
 
 export class GameApiRouter extends RouterBase {
+    private readonly config: AppConfig;
     private readonly gameRoute: string;
     private readonly protocol: IGameApiProtocol;
     private readonly answerRetriever: IAnswerRetriever;
 
     constructor(config: AppConfig, answerRetriever: IAnswerRetriever) {
         super();
+        this.config = config;
         this.gameRoute = '/game';
         this.answerRetriever = answerRetriever;
         this.protocol = ApiProtocolFactory.Create(config);
@@ -24,8 +26,8 @@ export class GameApiRouter extends RouterBase {
     protected initializeRouter(): void {
         this.router.get(`${this.gameRoute}/new`, async (req, res) => {
             try {
-                const answer = await this.answerRetriever.RetrieveAnswer(5);
-                const game = new Game(answer);
+                const answer = await this.answerRetriever.RetrieveAnswer(this.config.wordLength);
+                const game = new Game(answer, this.config.turnCount);
                 res = this.protocol.ToResponse(game, res);
                 this.handle200Ok(res);
             } catch (err) {
