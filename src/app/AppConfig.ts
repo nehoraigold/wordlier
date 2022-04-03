@@ -9,4 +9,6 @@ export type AppConfig = {
     guessValidatorType: GuessValidatorType;
     apiProtocolType?: ApiProtocolType;
     wordnikApiKey?: string;
+    wordLength?: number;
+    turnCount?: number;
 };

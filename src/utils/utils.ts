@@ -1,5 +1,5 @@
-import { AppConfig } from '../app/AppConfig';
 import { AnswerRetrieverType } from '../answer_retriever/AnswerRetrieverType';
+import { AppConfig } from '../app/AppConfig';
 import { GuessValidatorType } from '../guess_validator/GuessValidatorType';
 import { InitializationParams } from './InitializationParams';
 import { WordnikApiClient } from './WordnikApiClient';
@@ -16,5 +16,8 @@ export const CreateInitializationParams = (config: AppConfig) => {
         initializationParams.wordnikClient = new WordnikApiClient(wordnikApiKey);
     }
 
+    if (guessValidatorType === GuessValidatorType.REGEX) {
+        initializationParams.wordLength = config.wordLength;
+    }
     return initializationParams;
 };
