@@ -13,6 +13,7 @@
 		"experimentalDecorators": true
 	},
 	"include": [
+		"./rollup.config.js",
 		"./src/**/*",
 		"./test/**/*"
 	],

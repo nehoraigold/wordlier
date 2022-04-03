@@ -1,12 +1,7 @@
 import * as readline from 'readline';
 import { stdout as output, stdin as input } from 'process';
 import chalk from 'chalk';
-import {
-    HEADER_CORNER_CHAR,
-    HEADER_HORIZONTAL_CHAR,
-    HEADER_SPACING,
-    HEADER_VERTICAL_CHAR,
-} from './constants';
+import { HEADER_CORNER_CHAR, HEADER_HORIZONTAL_CHAR, HEADER_SPACING, HEADER_VERTICAL_CHAR } from './constants';
 import { LetterSpaceResult, ProcessedResult } from '../game/word_processor/ProcessedResult';
 
 export class CliRenderer {
@@ -37,7 +32,7 @@ export class CliRenderer {
     public static Result(result: ProcessedResult): string {
         let letters: Array<string> = [];
         result.forEach((letterSpace) => {
-            let char = ' ' + letterSpace.letter.toUpperCase() + ' ';
+            let char = ' ' + letterSpace.char.toUpperCase() + ' ';
             switch (letterSpace.result) {
                 case LetterSpaceResult.CORRECT_LOCATION:
                     char = chalk.bgGreen.black(char);

@@ -22,7 +22,7 @@ export class WordProcessor {
             if (answer[index] === letter) {
                 const count = answerLetters.get(letter);
                 answerLetters.set(letter, count - 1);
-                results[index] = { letter, result: LetterSpaceResult.CORRECT_LOCATION };
+                results[index] = { char: letter, result: LetterSpaceResult.CORRECT_LOCATION };
             }
         });
         return results;
@@ -41,7 +41,7 @@ export class WordProcessor {
             const numOfCharsLeft = answerLetters.get(letter);
             if (numOfCharsLeft > 0) {
                 answerLetters.set(letter, numOfCharsLeft - 1);
-                results[index] = { letter, result: LetterSpaceResult.INCORRECT_LOCATION };
+                results[index] = { char: letter, result: LetterSpaceResult.INCORRECT_LOCATION };
             }
         });
         return results;
@@ -50,7 +50,7 @@ export class WordProcessor {
     private processNotInWord(guess: string, results: ProcessedResult): ProcessedResult {
         guess.split('').forEach((letter, index) => {
             if (!results[index]) {
-                results[index] = { letter, result: LetterSpaceResult.NOT_IN_WORD };
+                results[index] = { char: letter, result: LetterSpaceResult.NOT_IN_WORD };
             }
         });
         return results;

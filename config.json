@@ -1,5 +1,7 @@
 {
+  "appMode": "cli",
   "answerRetrieverType": "random_word_api",
   "guessValidatorType": "",
+  "apiProtocolType": "",
   "wordnikApiKey": ""
 }
