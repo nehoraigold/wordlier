@@ -10,7 +10,10 @@ export class CliGuessRetriever extends ValidGuessRetrieverBase {
         super(wordLength, guessValidator);
     }
 
-    protected async retrieve(): Promise<string> {
+    protected async retrieve(isFirstGuess: boolean): Promise<string> {
+        if (!isFirstGuess) {
+            CliRenderer.Message('Invalid guess. Please try again.');
+        }
         return await CliRenderer.Prompt();
     }
 }

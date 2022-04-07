@@ -18,13 +18,13 @@ export class WordnikApiClient {
     }
 
     public async IsWord(word: string): Promise<boolean> {
-        const endpoint = `${this.wordApi}/${word}/definition`;
-        const params = {
-            limit: 1,
-            includeRelated: false,
-        };
-        const { status } = await this.sendApiRequest(endpoint, params);
-        return status === HttpStatus.HTTP_STATUS_OK;
+        const endpoint = `${this.wordApi}/${word}/scrabbleScore`;
+        try {
+            const { status } = await this.sendApiRequest(endpoint);
+            return status === HttpStatus.HTTP_STATUS_OK;
+        } catch (err) {
+            return false;
+        }
     }
 
     public async GetRandomWords(minLength: number, maxLength: number, limit: number): Promise<string[]> {

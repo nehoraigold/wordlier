@@ -9,6 +9,7 @@ export default {
     output: {
         dir: 'dist',
         preferConst: true,
+        sourcemap: true,
     },
     plugins: [
         nodeResolve({

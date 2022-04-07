@@ -15,11 +15,13 @@ export abstract class ValidGuessRetrieverBase implements IGuessRetriever {
 
     public async RetrieveGuess(): Promise<string> {
         let guess = '';
+        let isFirstGuess = true;
         while (!(await this.guessValidator.Validate(guess))) {
-            guess = await this.retrieve();
+            guess = await this.retrieve(isFirstGuess);
+            isFirstGuess = false;
         }
         return guess.toLowerCase();
     }
 
-    protected abstract retrieve(): Promise<string>;
+    protected abstract retrieve(isFirstGuess: boolean): Promise<string>;
 }
