@@ -69,6 +69,7 @@ export class GameApiRouter extends RouterBase {
 
     private async handleValidRequest(res: Response, game: Game, guess: string): Promise<void> {
         await game.PlayTurn(guess);
+        res.locals[SERVICE_JSON_FIELD] = {};
         res = this.protocol.ToResponse(game, res);
 
         Object.assign(res.locals[SERVICE_JSON_FIELD], {

@@ -1,12 +1,13 @@
-import config from '../config.json';
 import { AppConfig } from './app/AppConfig';
 import { IApp } from './app/IApp';
 import { AppMode } from './app/AppMode';
 import { CliApp } from './app/cli/CliApp';
 import { ServerApp } from './app/server/ServerApp';
+import { LoadJson } from './utils/utils';
 
 const main = async (): Promise<void> => {
-    const app = getApp(config as AppConfig);
+    const configJsonFilePath = process.argv[2] || 'config.json';
+    const app = getApp(LoadJson(configJsonFilePath) as AppConfig);
 
     if (!(await app.Initialize())) {
         console.error('Unable to initialize app!');
