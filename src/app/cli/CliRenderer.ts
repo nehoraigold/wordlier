@@ -1,7 +1,14 @@
-import * as readline from 'readline';
 import { stdout as output, stdin as input } from 'process';
+import * as readline from 'readline';
 import chalk from 'chalk';
-import { HEADER_CORNER_CHAR, HEADER_HORIZONTAL_CHAR, HEADER_SPACING, HEADER_VERTICAL_CHAR } from '../../utils/constants';
+
+import { GuessResultType } from '../../game/GuessResultType';
+import {
+    HEADER_CORNER_CHAR,
+    HEADER_HORIZONTAL_CHAR,
+    HEADER_SPACING,
+    HEADER_VERTICAL_CHAR,
+} from '../../utils/constants';
 import { LetterSpaceResult, WordResult } from '../../game/words/guess_processor/WordResult';
 
 export class CliRenderer {
@@ -29,9 +36,9 @@ export class CliRenderer {
         return this.logAndReturn(`${border}\n${title}\n${border}\n`);
     }
 
-    public static Result(result: WordResult): string {
+    public static Result(result: GuessResultType): string {
         let letters: Array<string> = [];
-        result.forEach((letterSpace) => {
+        (result as WordResult).forEach((letterSpace) => {
             let char = ' ' + letterSpace.char.toUpperCase() + ' ';
             switch (letterSpace.result) {
                 case LetterSpaceResult.CORRECT_LOCATION:

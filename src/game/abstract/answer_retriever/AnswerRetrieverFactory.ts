@@ -1,41 +1,38 @@
-import { ElementData } from '../../elements/ElementData';
-import { InitializationParams } from '../../../utils/InitializationParams';
+import { AppConfig } from '../../../app/AppConfig';
+import { ElementGameConfig } from '../../elements/ElementGameConfig';
+import { GameType } from '../../GameType';
 import { HardCodedAnswerRetriever } from '../../words/answer_retriever/HardCodedAnswerRetriever';
 import { RandomWordApiAnswerRetriever } from '../../words/answer_retriever/RandomWordApiAnswerRetriever';
 import { StringAnswerRetrieverType } from '../../words/answer_retriever/StringAnswerRetrieverType';
 import { WordnikApiAnswerRetriever } from '../../words/answer_retriever/WordnikApiAnswerRetriever';
-import { AnswerTypeMap } from '../AnswerType';
+import { WordGameConfig } from '../../words/WordGameConfig';
+import { WordnikApiClient } from '../../words/WordnikApiClient';
 import { IAnswerRetriever } from './IAnswerRetriever';
 
 export class AnswerRetrieverFactory {
-    public static Create<AnswerT extends keyof AnswerTypeMap>(
-        answerType: AnswerT,
-        initializationParams: InitializationParams,
-    ): IAnswerRetriever<AnswerTypeMap[AnswerT]> {
-        let answerRetriever = null;
-        switch (answerType) {
-            case 'string':
-                answerRetriever = this.createStringAnswerRetriever(initializationParams);
-                break;
-            case 'element':
-                answerRetriever = this.createElementAnswerRetriever(initializationParams);
-                break;
+    public static Create(config: AppConfig): IAnswerRetriever {
+        const { gameType, gameConfigs } = config;
+        switch (gameType) {
+            case GameType.WORD:
+                return this.createWordAnswerRetriever(gameConfigs[gameType]);
+            case GameType.ELEMENT:
+                return this.createElementAnswerRetriever(gameConfigs[gameType]);
+            default:
+                throw `Unknown game type "${gameType}"! Must be one of ${Object.values(GameType).join(', ')}`;
         }
-        return answerRetriever;
     }
 
-    private static createElementAnswerRetriever(
-        initializationParams: InitializationParams,
-    ): IAnswerRetriever<ElementData> {
+    private static createElementAnswerRetriever(gameConfig: ElementGameConfig): IAnswerRetriever {
         return null;
     }
 
-    private static createStringAnswerRetriever(initializationParams: InitializationParams): IAnswerRetriever<string> {
-        switch (initializationParams.stringAnswerRetrieverType) {
+    private static createWordAnswerRetriever(gameConfig: WordGameConfig): IAnswerRetriever {
+        const { answerRetrieverType, wordnikApiKey } = gameConfig;
+        switch (answerRetrieverType) {
             case StringAnswerRetrieverType.HARD_CODED:
                 return new HardCodedAnswerRetriever();
             case StringAnswerRetrieverType.WORDNIK_API:
-                const { wordnikClient } = initializationParams;
+                const wordnikClient = new WordnikApiClient(wordnikApiKey);
                 return new WordnikApiAnswerRetriever(wordnikClient);
             case StringAnswerRetrieverType.RANDOM_WORD_API:
             default:

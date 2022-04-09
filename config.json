@@ -1,8 +1,19 @@
 {
   "appMode": "cli",
-  "answerRetrieverType": "wordnik_api",
-  "guessValidatorType": "wordnik_api",
-  "apiProtocolType": "",
-  "wordnikApiKey": "",
-  "wordLength": 5
+  "gameType": "word",
+  "serverConfig": {
+    "apiProtocolType": "cookie"
+  },
+  "gameConfigs": {
+    "word": {
+      "wordLength": 5,
+      "turnCount": 6,
+      "answerRetrieverType": "wordnik_api",
+      "guessValidatorTypes": ["regex", "wordnik_api"],
+      "wordnikApiKey": ""
+    },
+    "element": {
+
+    }
+  }
 }

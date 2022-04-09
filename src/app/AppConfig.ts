@@ -1,16 +1,15 @@
-import { AnswerTypeMap } from '../game/abstract/AnswerType';
 import { AppMode } from './AppMode';
-import { StringAnswerRetrieverType } from '../game/words/answer_retriever/StringAnswerRetrieverType';
-import { GuessValidatorType } from '../game/abstract/GuessValidatorType';
-import { ApiProtocolType } from './server/protocol/ApiProtocolType';
+import { GameType } from '../game/GameType';
+import { ServerConfig } from './server/ServerConfig';
+import { WordGameConfig } from '../game/words/WordGameConfig';
+import { ElementGameConfig } from '../game/elements/ElementGameConfig';
 
 export type AppConfig = {
     appMode: AppMode;
-    gameType: keyof AnswerTypeMap;
-    stringAnswerRetrieverType: StringAnswerRetrieverType;
-    guessValidatorType: GuessValidatorType;
-    apiProtocolType?: ApiProtocolType;
-    wordnikApiKey?: string;
-    wordLength?: number;
-    turnCount?: number;
+    gameType: GameType;
+    serverConfig?: ServerConfig;
+    gameConfigs: {
+        [GameType.WORD]?: WordGameConfig;
+        [GameType.ELEMENT]?: ElementGameConfig;
+    };
 };

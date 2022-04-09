@@ -1,12 +1,16 @@
 import { Request, Response } from 'express';
-import { Game } from '../../../game/Game';
-import { GameState } from './GameState';
+import { GameFactory } from '../../../game/GameFactory';
+import { GameType } from '../../../game/GameType';
+import { IGame } from '../../../game/IGame';
+import { WordResult } from '../../../game/words/guess_processor/WordResult';
+import { WordGameConfig } from '../../../game/words/WordGameConfig';
+import { GameState } from '../../../game/GameState';
 import { IGameApiProtocol } from './IGameApiProtocol';
 
 const WORDLIER_COOKIE_NAME = '_wordlier';
 
 export class CookieGameApiProtocol implements IGameApiProtocol {
-    public FromRequest(req: Request): Game {
+    public FromRequest(req: Request): IGame {
         const gameStateCookie = req.cookies[WORDLIER_COOKIE_NAME];
         if (!gameStateCookie) {
             global.logger.Debug(`no ${WORDLIER_COOKIE_NAME} cookie on request`);
@@ -14,17 +18,17 @@ export class CookieGameApiProtocol implements IGameApiProtocol {
         }
 
         try {
-            const { answer, history, turnCount }: GameState = JSON.parse(
+            const gameState: GameState = JSON.parse(
                 Buffer.from(gameStateCookie, 'base64').toString('utf8'),
             );
-            return new Game(answer, turnCount, history);
+            return GameFactory.Create(GameType.WORD, gameState);
         } catch (err) {
             global.logger.Error('Unable to parse game state from cookie:', err);
             return null;
         }
     }
 
-    public ToResponse(game: Game, res: Response): Response {
+    public ToResponse(game: IGame, res: Response): Response {
         const gameState: GameState = {
             answer: game.Answer,
             history: game.History,

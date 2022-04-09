@@ -1,7 +1,7 @@
 import { IGuessProcessor } from '../../abstract/guess_processor/IGuessProcessor';
 import { WordResult, LetterSpaceResult } from './WordResult';
 
-export class WordProcessor implements IGuessProcessor<string, WordResult> {
+export class WordProcessor implements IGuessProcessor {
     public Process(guess: string, answer: string): WordResult {
         let results: WordResult = [];
         const answerLetters = this.getCharCountMap(answer);

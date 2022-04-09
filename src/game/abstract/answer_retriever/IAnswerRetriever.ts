@@ -1,3 +1,5 @@
-export interface IAnswerRetriever<AnswerT> {
-    RetrieveAnswer(): Promise<AnswerT>;
+import { GuessType } from '../../GuessType';
+
+export interface IAnswerRetriever {
+    RetrieveAnswer(): Promise<GuessType>;
 }

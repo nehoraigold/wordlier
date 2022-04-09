@@ -1,14 +1,12 @@
-import { ElementComparison } from './ElementComparison';
+import { IGuessProcessor } from '../abstract/guess_processor/IGuessProcessor';
+import { ElementResult } from './ElementResult';
 import { ElementData } from './ElementData';
 import { NumericalComparison } from './NumericalComparison';
 
-export class ElementProcessor {
-    constructor() {
-    }
-
-    public ProcessResult(guess: ElementData, answer: ElementData): ElementComparison {
+export class ElementProcessor implements IGuessProcessor {
+    public Process(guess: ElementData, answer: ElementData): ElementResult {
         const fieldNames = ['atomicNumber', 'atomicRadius', 'group', 'period', 'yearDiscovered'];
-        const result = {} as ElementComparison;
+        const result = {} as ElementResult;
         for (const fieldName of fieldNames) {
             const guessValue = this.convertValueToInt(guess[fieldName]);
             const answerValue = this.convertValueToInt(answer[fieldName]);

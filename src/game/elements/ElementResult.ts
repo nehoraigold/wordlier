@@ -1,6 +1,6 @@
 import { NumericalComparison } from './NumericalComparison';
 
-export type ElementComparison = {
+export type ElementResult = {
     atomicNumber: NumericalComparison;
     atomicRadius: NumericalComparison;
     group: NumericalComparison;

@@ -1,10 +1,10 @@
-import { AppConfig } from '../../AppConfig';
+import { ServerConfig } from '../ServerConfig';
 import { ApiProtocolType } from './ApiProtocolType';
 import { CookieGameApiProtocol } from './CookieGameApiProtocol';
 import { JsonBodyGameApiProtocol } from './JsonBodyGameApiProtocol';
 
 export class ApiProtocolFactory {
-    public static Create({ apiProtocolType }: AppConfig) {
+    public static Create({ apiProtocolType }: ServerConfig) {
         switch (apiProtocolType) {
             case ApiProtocolType.COOKIE:
                 return new CookieGameApiProtocol();

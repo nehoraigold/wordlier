@@ -1,7 +1,7 @@
 import { stdin as input, stdout as output } from 'process';
 import * as readline from 'readline';
-import { CliRenderer } from '../app/cli/CliRenderer';
-import { IGuessValidator } from '../game/abstract/guess_validator/IGuessValidator';
+import { CliRenderer } from '../CliRenderer';
+import { IGuessValidator } from '../../../game/abstract/guess_validator/IGuessValidator';
 import { ValidGuessRetrieverBase } from './ValidGuessRetrieverBase';
 import { IGuessRetriever } from './IGuessRetriever';
 

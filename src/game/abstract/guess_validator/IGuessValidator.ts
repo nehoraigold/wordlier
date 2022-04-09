@@ -1,3 +1,5 @@
+import { GuessType } from '../../GuessType';
+
 export interface IGuessValidator {
-    Validate(guess: string): Promise<boolean>;
+    Validate(guess: GuessType): Promise<boolean>;
 }

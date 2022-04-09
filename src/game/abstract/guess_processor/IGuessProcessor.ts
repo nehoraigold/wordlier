@@ -1,3 +1,6 @@
-export interface IGuessProcessor<AnswerType, ResultType> {
-    Process(guess: AnswerType, answer: AnswerType): ResultType | Promise<ResultType>;
+import { GuessType } from '../../GuessType';
+import { GuessResultType } from '../../GuessResultType';
+
+export interface IGuessProcessor {
+    Process(guess: GuessType, answer: GuessType): GuessResultType | Promise<GuessResultType>;
 }

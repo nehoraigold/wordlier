@@ -1,14 +1,14 @@
-import { IGuessProcessor } from './abstract/guess_processor/IGuessProcessor';
-import { LetterSpaceResult, WordResult } from './words/guess_processor/WordResult';
-import { WordProcessor } from './words/guess_processor/WordProcessor';
+import { IGame } from '../IGame';
+import { WordProcessor } from './guess_processor/WordProcessor';
+import { LetterSpaceResult, WordResult } from './guess_processor/WordResult';
 
-export class Game<AnswerType, ResultType> {
-    private readonly processor: IGuessProcessor<AnswerType, ResultType>;
-    private readonly answer: AnswerType;
+export class WordGame implements IGame {
+    private readonly processor: WordProcessor;
+    private readonly answer: string;
     private readonly turnCount: number;
-    private readonly history: Array<ResultType>;
+    private readonly history: Array<WordResult>;
 
-    constructor(answer: AnswerType, turnCount?: number, history?: Array<ResultType>) {
+    constructor(answer: string, turnCount?: number, history?: Array<WordResult>) {
         this.throwIfInvalidParameters(answer, turnCount, history);
         this.processor = new WordProcessor();
         this.answer = answer;
@@ -16,17 +16,17 @@ export class Game<AnswerType, ResultType> {
         this.history = history || [];
     }
 
-    public async PlayTurn(guess: string): Promise<ResultType> {
+    public async PlayTurn(guess: string): Promise<WordResult> {
         if (this.IsOver) {
             throw `Game is over, cannot play turn!`;
         }
 
-        const results = this.processor.Process(guess, this.answer);
+        const results = await this.processor.Process(guess, this.answer);
         this.history.push(results);
         return results;
     }
 
-    public get History(): Array<ResultType> {
+    public get History(): Array<WordResult> {
         return this.history;
     }
 
@@ -56,7 +56,7 @@ export class Game<AnswerType, ResultType> {
         }
         turnCount = turnCount || answer.length + 1;
         history = history || [];
-        if (history.length > turnCount || !history.every((turn) => turn && turn.length === answer.length)) {
+        if (history.length > turnCount) {
             throw `game history is invalid`;
         }
     }

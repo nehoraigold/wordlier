@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { Game } from '../../../game/Game';
+import { IGame } from '../../../game/IGame';
 
 export interface IGameApiProtocol {
-    FromRequest(req: Request): Game;
-    ToResponse(game: Game, res: Response): Response;
+    FromRequest(req: Request): IGame;
+    ToResponse(game: IGame, res: Response): Response;
 }

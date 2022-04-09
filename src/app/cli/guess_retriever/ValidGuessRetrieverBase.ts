@@ -1,6 +1,6 @@
-import { CompositeGuessValidator } from '../game/words/guess_validator/CompositeGuessValidator';
-import { IGuessValidator } from '../game/abstract/guess_validator/IGuessValidator';
-import { RegexGuessValidator } from '../game/words/guess_validator/RegexGuessValidator';
+import { CompositeGuessValidator } from '../../../game/abstract/guess_validator/CompositeGuessValidator';
+import { IGuessValidator } from '../../../game/abstract/guess_validator/IGuessValidator';
+import { RegexGuessValidator } from '../../../game/words/guess_validator/RegexGuessValidator';
 import { IGuessRetriever } from './IGuessRetriever';
 
 export abstract class ValidGuessRetrieverBase implements IGuessRetriever {

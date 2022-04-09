@@ -2,15 +2,15 @@ import http from 'http';
 import { Socket } from 'net';
 import express, { Express } from 'express';
 import cookieParser from 'cookie-parser';
-import { AnswerRetrieverFactory } from '../../game/abstract/answer_retriever/AnswerRetrieverFactory';
 
-import { SERVICE_VERSION } from '../../utils/constants';
-import { Logger } from './Logger';
-import { CreateInitializationParams } from '../../utils/utils';
-import { AppConfig } from '../AppConfig';
 import { IApp } from '../IApp';
-import { GameApiRouter } from './router/GameApiRouter';
+import { Logger } from './Logger';
+import { AppConfig } from '../AppConfig';
 import { IRouter } from './router/IRouter';
+import { GameApiRouter } from './router/GameApiRouter';
+import { GameType } from '../../game/GameType';
+import { SERVICE_VERSION } from '../../utils/constants';
+import { AnswerRetrieverFactory } from '../../game/abstract/answer_retriever/AnswerRetrieverFactory';
 
 export class ServerApp implements IApp {
     private readonly app: Express;
@@ -45,8 +45,7 @@ export class ServerApp implements IApp {
     }
 
     private initializeRouters(): void {
-        const initializationParams = CreateInitializationParams(this.config);
-        const answerRetriever = AnswerRetrieverFactory.Create(this.config.stringAnswerRetrieverType, initializationParams);
+        const answerRetriever = AnswerRetrieverFactory.Create(this.config);
         this.routers = [new GameApiRouter(this.config, answerRetriever)];
         this.routers.forEach((router) => {
             this.app.use(`/${SERVICE_VERSION}`, router.Load());

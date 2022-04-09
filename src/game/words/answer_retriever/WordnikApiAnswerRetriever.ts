@@ -2,7 +2,7 @@ import { DEFAULT_WORD_LENGTH } from '../../../utils/constants';
 import { WordnikApiClient } from '../WordnikApiClient';
 import { IAnswerRetriever } from '../../abstract/answer_retriever/IAnswerRetriever';
 
-export class WordnikApiAnswerRetriever implements IAnswerRetriever<string> {
+export class WordnikApiAnswerRetriever implements IAnswerRetriever {
     private readonly client: WordnikApiClient;
     private readonly wordLength: number;
 

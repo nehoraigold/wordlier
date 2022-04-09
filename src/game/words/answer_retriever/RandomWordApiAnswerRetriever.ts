@@ -3,7 +3,7 @@ import { constants as HttpStatus } from 'http2';
 import { DEFAULT_WORD_LENGTH } from '../../../utils/constants';
 import { IAnswerRetriever } from '../../abstract/answer_retriever/IAnswerRetriever';
 
-export class RandomWordApiAnswerRetriever implements IAnswerRetriever<string> {
+export class RandomWordApiAnswerRetriever implements IAnswerRetriever {
     private readonly baseUri: string;
     private readonly numberOfWordsToRetrieve: number;
     private readonly apiCallLimit: number;
