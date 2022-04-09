@@ -1,5 +1,5 @@
-import { IGuessValidator } from './IGuessValidator';
-import { WordnikApiClient } from '../utils/WordnikApiClient';
+import { IGuessValidator } from '../../abstract/guess_validator/IGuessValidator';
+import { WordnikApiClient } from '../WordnikApiClient';
 
 export class WordnikGuessValidator implements IGuessValidator {
     private readonly client: WordnikApiClient;

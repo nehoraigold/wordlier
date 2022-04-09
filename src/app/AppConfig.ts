@@ -1,11 +1,13 @@
+import { AnswerTypeMap } from '../game/abstract/AnswerType';
 import { AppMode } from './AppMode';
-import { AnswerRetrieverType } from '../answer_retriever/AnswerRetrieverType';
-import { GuessValidatorType } from '../guess_validator/GuessValidatorType';
+import { StringAnswerRetrieverType } from '../game/words/answer_retriever/StringAnswerRetrieverType';
+import { GuessValidatorType } from '../game/abstract/GuessValidatorType';
 import { ApiProtocolType } from './server/protocol/ApiProtocolType';
 
 export type AppConfig = {
     appMode: AppMode;
-    answerRetrieverType: AnswerRetrieverType;
+    gameType: keyof AnswerTypeMap;
+    stringAnswerRetrieverType: StringAnswerRetrieverType;
     guessValidatorType: GuessValidatorType;
     apiProtocolType?: ApiProtocolType;
     wordnikApiKey?: string;

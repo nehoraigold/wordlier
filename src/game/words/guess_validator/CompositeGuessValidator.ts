@@ -1,4 +1,4 @@
-import { IGuessValidator } from './IGuessValidator';
+import { IGuessValidator } from '../../abstract/guess_validator/IGuessValidator';
 
 export class CompositeGuessValidator implements IGuessValidator {
     private readonly validators: Array<IGuessValidator>;

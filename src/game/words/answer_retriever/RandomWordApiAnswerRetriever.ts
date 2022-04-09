@@ -1,23 +1,26 @@
 import axios from 'axios';
 import { constants as HttpStatus } from 'http2';
-import { IAnswerRetriever } from './IAnswerRetriever';
+import { DEFAULT_WORD_LENGTH } from '../../../utils/constants';
+import { IAnswerRetriever } from '../../abstract/answer_retriever/IAnswerRetriever';
 
-export class RandomWordApiAnswerRetriever implements IAnswerRetriever {
+export class RandomWordApiAnswerRetriever implements IAnswerRetriever<string> {
     private readonly baseUri: string;
     private readonly numberOfWordsToRetrieve: number;
     private readonly apiCallLimit: number;
+    private readonly wordLength: number;
 
-    constructor() {
+    constructor(wordLength?: number) {
         this.baseUri = 'https://random-word-api.herokuapp.com/word';
         this.numberOfWordsToRetrieve = 20;
         this.apiCallLimit = 5;
+        this.wordLength = wordLength || DEFAULT_WORD_LENGTH;
     }
 
-    public async RetrieveAnswer(wordLength: number): Promise<string> {
+    public async RetrieveAnswer(): Promise<string> {
         for (let i = 0; i < this.apiCallLimit; i++) {
             const words = await this.makeApiCall();
             for (const word of words) {
-                if (word.length === wordLength) {
+                if (word.length === this.wordLength) {
                     return word;
                 }
             }

@@ -1,14 +1,14 @@
-import { LetterSpaceResult, ProcessedResult } from './word_processor/ProcessedResult';
-import { WordProcessor } from './word_processor/WordProcessor';
-import { GameConfiguration } from './GameConfiguration';
+import { IGuessProcessor } from './abstract/guess_processor/IGuessProcessor';
+import { LetterSpaceResult, WordResult } from './words/guess_processor/WordResult';
+import { WordProcessor } from './words/guess_processor/WordProcessor';
 
-export class Game {
-    private readonly processor: WordProcessor;
-    private readonly answer: string;
+export class Game<AnswerType, ResultType> {
+    private readonly processor: IGuessProcessor<AnswerType, ResultType>;
+    private readonly answer: AnswerType;
     private readonly turnCount: number;
-    private readonly history: Array<ProcessedResult>;
+    private readonly history: Array<ResultType>;
 
-    constructor(answer: string, turnCount?: number, history?: Array<ProcessedResult>) {
+    constructor(answer: AnswerType, turnCount?: number, history?: Array<ResultType>) {
         this.throwIfInvalidParameters(answer, turnCount, history);
         this.processor = new WordProcessor();
         this.answer = answer;
@@ -16,7 +16,7 @@ export class Game {
         this.history = history || [];
     }
 
-    public async PlayTurn(guess: string): Promise<ProcessedResult> {
+    public async PlayTurn(guess: string): Promise<ResultType> {
         if (this.IsOver) {
             throw `Game is over, cannot play turn!`;
         }
@@ -26,7 +26,7 @@ export class Game {
         return results;
     }
 
-    public get History(): Array<ProcessedResult> {
+    public get History(): Array<ResultType> {
         return this.history;
     }
 
@@ -50,7 +50,7 @@ export class Game {
         return this.turnCount < this.TurnNumber || this.DidWin;
     }
 
-    private throwIfInvalidParameters(answer: string, turnCount?: number, history?: Array<ProcessedResult>): void {
+    private throwIfInvalidParameters(answer: string, turnCount?: number, history?: Array<WordResult>): void {
         if (!answer) {
             throw `no answer provided`;
         }

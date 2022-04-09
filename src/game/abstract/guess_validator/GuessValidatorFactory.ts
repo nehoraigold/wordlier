@@ -1,8 +1,8 @@
-import { InitializationParams } from '../utils/InitializationParams';
-import { GuessValidatorType } from './GuessValidatorType';
+import { InitializationParams } from '../../../utils/InitializationParams';
+import { GuessValidatorType } from '../GuessValidatorType';
 import { IGuessValidator } from './IGuessValidator';
-import { RegexGuessValidator } from './RegexGuessValidator';
-import { WordnikGuessValidator } from './WordnikGuessValidator';
+import { RegexGuessValidator } from '../../words/guess_validator/RegexGuessValidator';
+import { WordnikGuessValidator } from '../../words/guess_validator/WordnikGuessValidator';
 
 export class GuessValidatorFactory {
     public static Create(type: GuessValidatorType, initializationParams: InitializationParams): IGuessValidator {

@@ -1,4 +1,4 @@
-export type ProcessedResult = Array<LetterSpace>;
+export type WordResult = Array<LetterSpace>;
 
 export type LetterSpace = {
     char: string;

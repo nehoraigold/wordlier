@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { LetterSpaceResult } from '../src/game/word_processor/ProcessedResult';
-import { WordProcessor } from '../src/game/word_processor/WordProcessor';
+import { LetterSpaceResult } from '../src/game/words/guess_processor/WordResult';
+import { WordProcessor } from '../src/game/words/guess_processor/WordProcessor';
 
 describe(WordProcessor.prototype.constructor.name, () => {
     describe(WordProcessor.prototype.Process.name, () => {

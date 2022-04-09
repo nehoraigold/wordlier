@@ -1,7 +1,7 @@
-import { ProcessedResult } from '../../../game/word_processor/ProcessedResult';
+import { WordResult } from '../../../game/words/guess_processor/WordResult';
 
 export type GameState = {
     answer: string;
-    history: Array<ProcessedResult>;
+    history: Array<WordResult>;
     turnCount?: number;
 };

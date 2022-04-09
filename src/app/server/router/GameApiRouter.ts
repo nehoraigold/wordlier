@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { IAnswerRetriever } from '../../../answer_retriever/IAnswerRetriever';
+import { IAnswerRetriever } from '../../../game/abstract/answer_retriever/IAnswerRetriever';
 import { Game } from '../../../game/Game';
 import { SERVICE_JSON_FIELD } from '../../../utils/constants';
 import { AppConfig } from '../../AppConfig';

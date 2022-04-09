@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import { LogLevel } from './LogLevel';
-import { CliRenderer } from './CliRenderer';
+import { CliRenderer } from '../cli/CliRenderer';
 
 export class Logger {
     private readonly logLevel: LogLevel;
