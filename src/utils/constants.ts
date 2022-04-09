@@ -4,6 +4,7 @@ export const HEADER_HORIZONTAL_CHAR = '-';
 export const HEADER_VERTICAL_CHAR = '|';
 
 export const DEFAULT_WORD_LENGTH = 5;
+export const NUMBER_OF_ELEMENTS = 118;
 
 export const SERVICE_VERSION = 'v1';
 export const SERVICE_JSON_FIELD = 'wordlier';

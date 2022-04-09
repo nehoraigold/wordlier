@@ -6,8 +6,8 @@ import { ValidGuessRetrieverBase } from './ValidGuessRetrieverBase';
 import { IGuessRetriever } from './IGuessRetriever';
 
 export class CliGuessRetriever extends ValidGuessRetrieverBase {
-    constructor(wordLength: number, guessValidator?: IGuessValidator) {
-        super(wordLength, guessValidator);
+    constructor(guessValidator?: IGuessValidator) {
+        super(guessValidator);
     }
 
     protected async retrieve(isFirstGuess: boolean): Promise<string> {

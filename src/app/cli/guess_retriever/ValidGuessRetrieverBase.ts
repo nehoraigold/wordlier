@@ -1,16 +1,11 @@
-import { CompositeGuessValidator } from '../../../game/abstract/guess_validator/CompositeGuessValidator';
 import { IGuessValidator } from '../../../game/abstract/guess_validator/IGuessValidator';
-import { RegexGuessValidator } from '../../../game/words/guess_validator/RegexGuessValidator';
 import { IGuessRetriever } from './IGuessRetriever';
 
 export abstract class ValidGuessRetrieverBase implements IGuessRetriever {
     private readonly guessValidator: IGuessValidator;
 
-    protected constructor(wordLength: number, guessValidator?: IGuessValidator) {
-        const regexGuessValidator = new RegexGuessValidator(wordLength);
-        this.guessValidator = guessValidator
-            ? new CompositeGuessValidator([regexGuessValidator, guessValidator])
-            : regexGuessValidator;
+    protected constructor(guessValidator?: IGuessValidator) {
+        this.guessValidator = guessValidator;
     }
 
     public async RetrieveGuess(): Promise<string> {

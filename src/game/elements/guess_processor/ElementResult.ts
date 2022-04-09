@@ -1,4 +1,4 @@
-import { NumericalComparison } from './NumericalComparison';
+import { NumericalComparison } from '../NumericalComparison';
 
 export type ElementResult = {
     atomicNumber: NumericalComparison;

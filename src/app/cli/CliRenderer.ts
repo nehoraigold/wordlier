@@ -36,26 +36,6 @@ export class CliRenderer {
         return this.logAndReturn(`${border}\n${title}\n${border}\n`);
     }
 
-    public static Result(result: GuessResultType): string {
-        let letters: Array<string> = [];
-        (result as WordResult).forEach((letterSpace) => {
-            let char = ' ' + letterSpace.char.toUpperCase() + ' ';
-            switch (letterSpace.result) {
-                case LetterSpaceResult.CORRECT_LOCATION:
-                    char = chalk.bgGreen.black(char);
-                    break;
-                case LetterSpaceResult.INCORRECT_LOCATION:
-                    char = chalk.bgYellow.black(char);
-                    break;
-                case LetterSpaceResult.NOT_IN_WORD:
-                    char = chalk.bgGray.black(char);
-                    break;
-            }
-            letters.push(char);
-        });
-        return this.logAndReturn(letters.join(' '));
-    }
-
     public static Prompt(prompt = ''): Promise<string> {
         return new Promise<string>((resolve) => {
             const rl = readline.createInterface({ input, output });

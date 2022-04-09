@@ -1,9 +1,10 @@
 import axios from 'axios';
-import { ElementData } from './ElementData';
+import { ElementData } from '../ElementData';
+import { IElementProvider } from './IElementProvider';
 
 // https://documenter.getpostman.com/view/14793990/TzmCgD9k#intro
 
-export class PeriodicTableApiClient {
+export class PeriodicTableApiClient implements IElementProvider {
     private readonly baseUrl: string;
 
     constructor() {
@@ -22,9 +23,19 @@ export class PeriodicTableApiClient {
         return elements[0];
     }
 
+    public async GetElementBySymbol(elementSymbol: string): Promise<ElementData> {
+        const endpoint = `element/symbol/${this.normalizeElementSymbol(elementSymbol)}`;
+        const elements = await this.sendApiRequest(endpoint);
+        return elements[0];
+    }
+
     public async GetAllElements(): Promise<Array<ElementData>> {
         const endpoint = 'elements';
         return await this.sendApiRequest(endpoint);
+    }
+
+    private normalizeElementSymbol(elementSymbol: string): string {
+        return `${elementSymbol.charAt(0).toUpperCase()}${elementSymbol.substring(1)}`;
     }
 
     private async sendApiRequest(endpoint: string): Promise<Array<ElementData>> {

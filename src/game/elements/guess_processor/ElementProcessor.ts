@@ -1,7 +1,7 @@
-import { IGuessProcessor } from '../abstract/guess_processor/IGuessProcessor';
+import { IGuessProcessor } from '../../abstract/guess_processor/IGuessProcessor';
 import { ElementResult } from './ElementResult';
-import { ElementData } from './ElementData';
-import { NumericalComparison } from './NumericalComparison';
+import { ElementData } from '../ElementData';
+import { NumericalComparison } from '../NumericalComparison';
 
 export class ElementProcessor implements IGuessProcessor {
     public Process(guess: ElementData, answer: ElementData): ElementResult {

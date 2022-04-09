@@ -1,9 +1,12 @@
 import { AppConfig } from '../../../app/AppConfig';
+import { ElementAnswerRetriever } from '../../elements/answer_retriever/ElementAnswerRetriever';
+import { PeriodicTableCache } from '../../elements/element_provider/PeriodicTableCache';
 import { ElementGameConfig } from '../../elements/ElementGameConfig';
+import { PeriodicTableApiClient } from '../../elements/element_provider/PeriodicTableApiClient';
 import { GameType } from '../../GameType';
 import { HardCodedAnswerRetriever } from '../../words/answer_retriever/HardCodedAnswerRetriever';
 import { RandomWordApiAnswerRetriever } from '../../words/answer_retriever/RandomWordApiAnswerRetriever';
-import { StringAnswerRetrieverType } from '../../words/answer_retriever/StringAnswerRetrieverType';
+import { WordAnswerRetrieverType } from '../../words/answer_retriever/WordAnswerRetrieverType';
 import { WordnikApiAnswerRetriever } from '../../words/answer_retriever/WordnikApiAnswerRetriever';
 import { WordGameConfig } from '../../words/WordGameConfig';
 import { WordnikApiClient } from '../../words/WordnikApiClient';
@@ -23,18 +26,29 @@ export class AnswerRetrieverFactory {
     }
 
     private static createElementAnswerRetriever(gameConfig: ElementGameConfig): IAnswerRetriever {
-        return null;
+        let { cachedElementProvider, elementProvider } = gameConfig;
+        if (!elementProvider) {
+            elementProvider = cachedElementProvider
+                ? new PeriodicTableCache(new PeriodicTableApiClient())
+                : new PeriodicTableApiClient();
+            gameConfig.elementProvider = elementProvider;
+        }
+        return new ElementAnswerRetriever(elementProvider);
     }
 
     private static createWordAnswerRetriever(gameConfig: WordGameConfig): IAnswerRetriever {
-        const { answerRetrieverType, wordnikApiKey } = gameConfig;
+        const { answerRetrieverType } = gameConfig;
         switch (answerRetrieverType) {
-            case StringAnswerRetrieverType.HARD_CODED:
+            case WordAnswerRetrieverType.HARD_CODED:
                 return new HardCodedAnswerRetriever();
-            case StringAnswerRetrieverType.WORDNIK_API:
-                const wordnikClient = new WordnikApiClient(wordnikApiKey);
-                return new WordnikApiAnswerRetriever(wordnikClient);
-            case StringAnswerRetrieverType.RANDOM_WORD_API:
+            case WordAnswerRetrieverType.WORDNIK_API:
+                let apiClient = gameConfig.wordnikApiClient;
+                if (!apiClient) {
+                    apiClient = new WordnikApiClient(gameConfig.wordnikApiKey);
+                    gameConfig.wordnikApiClient = apiClient;
+                }
+                return new WordnikApiAnswerRetriever(apiClient);
+            case WordAnswerRetrieverType.RANDOM_WORD_API:
             default:
                 return new RandomWordApiAnswerRetriever();
         }
