@@ -2,6 +2,7 @@ import http from 'http';
 import { Socket } from 'net';
 import express, { Express } from 'express';
 import cookieParser from 'cookie-parser';
+import { GuessValidatorFactory } from '../../game/abstract/guess_validator/GuessValidatorFactory';
 
 import { IApp } from '../IApp';
 import { Logger } from './Logger';
@@ -46,7 +47,8 @@ export class ServerApp implements IApp {
 
     private initializeRouters(): void {
         const answerRetriever = AnswerRetrieverFactory.Create(this.config);
-        this.routers = [new GameApiRouter(this.config, answerRetriever)];
+        const guessValidator = GuessValidatorFactory.Create(this.config);
+        this.routers = [new GameApiRouter(this.config, answerRetriever, guessValidator)];
         this.routers.forEach((router) => {
             this.app.use(`/${SERVICE_VERSION}`, router.Load());
         });

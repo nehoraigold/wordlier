@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import { IAnswerRetriever } from '../../../game/abstract/answer_retriever/IAnswerRetriever';
+import { IGuessValidator } from '../../../game/abstract/guess_validator/IGuessValidator';
 import { ElementGameConfig } from '../../../game/elements/ElementGameConfig';
 import { GameFactory } from '../../../game/GameFactory';
-import { GameType } from '../../../game/GameType';
+import { GuessType } from '../../../game/GuessType';
 import { IGame } from '../../../game/IGame';
-import { RegexGuessValidator } from '../../../game/words/guess_validator/RegexGuessValidator';
 import { WordGameConfig } from '../../../game/words/WordGameConfig';
 import { SERVICE_JSON_FIELD } from '../../../utils/constants';
 import { AppConfig } from '../../AppConfig';
@@ -19,13 +19,15 @@ export class GameApiRouter extends RouterBase {
     private readonly gameRoute: string;
     private readonly protocol: IGameApiProtocol;
     private readonly answerRetriever: IAnswerRetriever;
+    private readonly guessValidator: IGuessValidator;
 
-    constructor(config: AppConfig, answerRetriever: IAnswerRetriever) {
+    constructor(config: AppConfig, answerRetriever: IAnswerRetriever, guessValidator: IGuessValidator) {
         super();
         this.config = config;
         this.gameConfig = config.gameConfigs[config.gameType];
         this.gameRoute = '/game';
         this.answerRetriever = answerRetriever;
+        this.guessValidator = guessValidator;
         this.protocol = ApiProtocolFactory.Create(config.serverConfig);
     }
 
@@ -54,8 +56,8 @@ export class GameApiRouter extends RouterBase {
             if (game.IsOver) {
                 return this.handle400BadRequest(res, 'turn cannot be played on a completed game');
             }
-
-            const guess = this.extractGuessFromBody(req, game);
+            let guess = this.extractGuess(req);
+            guess = await this.validateGuess(guess);
             if (!guess) {
                 return this.handle400BadRequest(res, 'invalid guess');
             }
@@ -77,7 +79,7 @@ export class GameApiRouter extends RouterBase {
         res.status(200).json(jsonResponse);
     }
 
-    private async handleValidRequest(res: Response, game: IGame, guess: string): Promise<void> {
+    private async handleValidRequest(res: Response, game: IGame, guess: GuessType): Promise<void> {
         await game.PlayTurn(guess);
         res.locals[SERVICE_JSON_FIELD] = {};
         res = this.protocol.ToResponse(game, res);
@@ -88,16 +90,18 @@ export class GameApiRouter extends RouterBase {
         this.handle200Ok(res);
     }
 
-    private extractGuessFromBody(req: Request, game: IGame): string {
-        const pattern = new RegexGuessValidator((game.Answer as string).length);
-        const { guess } = req.body;
-        if (guess && pattern.Validate(guess)) {
-            return guess;
-        }
-        return '';
+    private extractGuess(req: Request): GuessType {
+        return req?.body?.guess;
     }
 
-    private getPlayTurnResponseMessage(guess: string, game: IGame): string {
+    private async validateGuess(guess: GuessType): Promise<GuessType> {
+        if (!(await this.guessValidator.Validate(guess))) {
+            return null;
+        }
+        return guess;
+    }
+
+    private getPlayTurnResponseMessage(guess: GuessType, game: IGame): string {
         if (game.DidWin) {
             return `Congratulations! The word was ${game.Answer}.`;
         } else if (game.IsOver) {
