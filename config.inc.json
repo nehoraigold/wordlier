@@ -1,6 +1,6 @@
 {
   "appMode": "cli",
-  "gameType": "element",
+  "gameType": "word",
   "serverConfig": {
     "apiProtocolType": "cookie"
   },
