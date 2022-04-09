@@ -2,8 +2,6 @@ import { Request, Response } from 'express';
 import { GameFactory } from '../../../game/GameFactory';
 import { GameType } from '../../../game/GameType';
 import { IGame } from '../../../game/IGame';
-import { WordResult } from '../../../game/words/guess_processor/WordResult';
-import { WordGameConfig } from '../../../game/words/WordGameConfig';
 import { GameState } from '../../../game/GameState';
 import { IGameApiProtocol } from './IGameApiProtocol';
 
@@ -18,9 +16,7 @@ export class CookieGameApiProtocol implements IGameApiProtocol {
         }
 
         try {
-            const gameState: GameState = JSON.parse(
-                Buffer.from(gameStateCookie, 'base64').toString('utf8'),
-            );
+            const gameState: GameState = JSON.parse(Buffer.from(gameStateCookie, 'base64').toString('utf8'));
             return GameFactory.Create(GameType.WORD, gameState);
         } catch (err) {
             global.logger.Error('Unable to parse game state from cookie:', err);
